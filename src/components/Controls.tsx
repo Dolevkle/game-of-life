@@ -28,7 +28,7 @@ const Controls: React.FC<ControlsProps> = ({
                                                setGridSize,
                                            }) => {
     return (
-        <div className="controls">
+        <>
             <div className="flex space-x-2">
                 <Button onClick={onStartPause}>{running ? 'Pause' : 'Start'}</Button>
                 <Button variant="secondary" onClick={onClear}>
@@ -55,7 +55,7 @@ const Controls: React.FC<ControlsProps> = ({
                         type="number"
                         value={gridSize.rows}
                         onChange={(e) =>
-                            setGridSize({ ...gridSize, rows: parseInt(e.target.value) })
+                            setGridSize({ ...gridSize, rows: e.target.valueAsNumber})
                         }
                         min={10}
                         max={100}
@@ -67,14 +67,14 @@ const Controls: React.FC<ControlsProps> = ({
                         type="number"
                         value={gridSize.cols}
                         onChange={(e) =>
-                            setGridSize({ ...gridSize, cols: parseInt(e.target.value) })
+                            setGridSize({ ...gridSize, cols: e.target.valueAsNumber })
                         }
                         min={10}
                         max={100}
                     />
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 
