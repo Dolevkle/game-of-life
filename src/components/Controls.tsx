@@ -1,10 +1,12 @@
 // src/components/Controls.tsx
-import React from 'react';
+import React, {useState} from 'react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { GridSize } from '../types';
+import {GridSize, Pattern} from '@/types';
+import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from "@/components/ui/dialog.tsx";
+import PatternSelector from "@/components/PatternSelector.tsx";
 
 interface ControlsProps {
     running: boolean;
@@ -15,6 +17,8 @@ interface ControlsProps {
     setSimulationSpeed: React.Dispatch<React.SetStateAction<number>>;
     gridSize: GridSize;
     setGridSize: React.Dispatch<React.SetStateAction<GridSize>>;
+    onSelectPattern: (pattern: Pattern) => void;
+
 }
 
 const Controls: React.FC<ControlsProps> = ({
@@ -26,9 +30,11 @@ const Controls: React.FC<ControlsProps> = ({
                                                setSimulationSpeed,
                                                gridSize,
                                                setGridSize,
+                                               onSelectPattern,
                                            }) => {
+
     return (
-        <>
+        <div className={'w-4/5'}>
             <div className="flex space-x-2">
                 <Button onClick={onStartPause}>{running ? 'Pause' : 'Start'}</Button>
                 <Button variant="secondary" onClick={onClear}>
@@ -37,15 +43,32 @@ const Controls: React.FC<ControlsProps> = ({
                 <Button variant="secondary" onClick={onRandomize}>
                     Randomize
                 </Button>
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="secondary">Patterns</Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Select a Pattern</DialogTitle>
+                        </DialogHeader>
+                        {/* Pattern Selector Component */}
+                        <PatternSelector
+                            onSelectPattern={(pattern) => {
+                                onSelectPattern(pattern);
+                            }}
+                            gridSize={gridSize}
+                        />
+                    </DialogContent>
+                </Dialog>
             </div>
             <div className="mt-4">
                 <Label>Simulation Speed ({simulationSpeed} ms)</Label>
                 <Slider
                     value={[simulationSpeed]}
                     onValueChange={(value) => setSimulationSpeed(value[0])}
-                    min={50}
-                    max={1000}
-                    step={50}
+                    min={100}
+                    max={5000}
+                    step={100}
                 />
             </div>
             <div className="mt-4 grid grid-cols-2 gap-2">
@@ -74,7 +97,7 @@ const Controls: React.FC<ControlsProps> = ({
                     />
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
