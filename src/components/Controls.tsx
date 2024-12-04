@@ -67,8 +67,8 @@ const Controls: React.FC<ControlsProps> = ({
                     value={[simulationSpeed]}
                     onValueChange={(value) => setSimulationSpeed(value[0])}
                     min={100}
-                    max={5000}
-                    step={100}
+                    max={2000}
+                    step={50}
                 />
             </div>
             <div className="mt-4 grid grid-cols-2 gap-2">
